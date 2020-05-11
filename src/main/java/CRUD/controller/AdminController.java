@@ -69,7 +69,7 @@ public class AdminController {
         }
 
         userService.update(user);
-        model.addAttribute("listUser", userService.getAll());
+       model.addAttribute("listUser", userService.getAll());
         return "redirect:/admin/";
     }
     @RequestMapping(value = {"/delete/{id}"}, method = {RequestMethod.GET})

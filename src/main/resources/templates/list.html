@@ -20,14 +20,16 @@
 </nav>
 <div class="row">
     <div class="col-3">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="/admin/" role="tab"
-               aria-controls="v-pills-home" aria-selected="true">Admin</a>
-            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="/user/" role="tab"
-               aria-controls="v-pills-profile" aria-selected="false">User</a>
-
-        </div>
-
+        <ul class="nav nav-pills">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Choose Role:</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/admin/">Admin</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/user/">User</a>
+                </div>
+            </li>
+        </ul>
     </div>
     <div class="col-9">
         <div class="p-3 mb-2 bg-light text-dark">
@@ -62,7 +64,47 @@
                     <td th:text="${user.getName()}"></td>
                     <td th:text="${user.getAge()}"></td>
                     <td th:text="${user.getRoles()}"></td>
-                    <td><a th:href="@{edit/{id}(id=${user.id})}" class="btn btn-success" role="button" >Edit</a></td>
+                    <td>
+                        <a data-toggle="modal" data-target="#modal-edit"
+                           th:attr="data-target='#modal-edit'+${user.id }" class="btn btn-success" role="button">Edit</a>
+
+
+                        <div class="modal modal-edit fade in" th:id="modal-edit+${user.id }">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit User</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{edit/update/{id}(id=${user.id})}" method="post">
+                                            <input type="hidden" name="id" th:value="${user.id}" />
+                                            <div class="form-group">
+                                                <label for="name">Имя пользователя:</label>
+                                                <input type="text" name="name" size="45" th:value="${user.name}" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Имя пользователя:"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="age">Age</label>
+                                                <input type="text" name="age" size="45" th:value="${user.age}" class="form-control" id="age" placeholder="Age"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Username</label>
+                                                <input type="text" name="username" size="45" th:value="${user.username}" class="form-control" id="username" placeholder="Username"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input type="password" name="password" size="45" th:value="${user.password}" class="form-control" id="password" placeholder="Password"/>
+                                            </div>
+                                            <input type="submit" value="Save" />
+                                        </form>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
 
 
 
